@@ -1,0 +1,69 @@
+@extends('admin.layouts.master')
+
+@section('title', 'Admin | Add User')
+
+@push('css')
+
+@endpush
+
+@section('content')
+
+    <div class="container-fluid">
+        <div class="row clearfix">
+            <div class="col-lg-8 col-md-12 col-sm-12 col-xs-12 ">
+
+                <div class="card" style="background: #c3d1e0">
+                    <div class="header">
+                        <h1><i class='fa fa-user-plus'></i> Add User</h1>
+                    </div>
+                    <div class="body">
+
+                        {{-- @include ('errors.list') --}}
+
+                        {{ Form::open(array('url' => 'users')) }}
+
+                        <div class="form-group">
+                            {{ Form::label('name', 'Name') }}
+                            {{ Form::text('name', '', array('class' => 'form-control')) }}
+                        </div>
+
+                        <div class="form-group">
+                            {{ Form::label('email', 'Email') }}
+                            {{ Form::email('email', '', array('class' => 'form-control')) }}
+                        </div>
+
+                        <div class='form-group'>
+                            @foreach ($roles as $role)
+                                {{ Form::checkbox('roles[]',  $role->id ) }}
+                                {{ Form::label($role->name, ucfirst($role->name)) }}<br>
+
+
+
+                            @endforeach
+                        </div>
+
+                        <div class="form-group">
+                            {{ Form::label('password', 'Password') }}<br>
+                            {{ Form::password('password', array('class' => 'form-control')) }}
+
+                        </div>
+
+                        <div class="form-group">
+                            {{ Form::label('password', 'Confirm Password') }}<br>
+                            {{ Form::password('password_confirmation', array('class' => 'form-control')) }}
+
+                        </div>
+
+                        {{ Form::submit('Submit', array('class' => 'btn btn-success')) }}
+                        <a class="btn btn-primary" href="{{route('users.index')}}">Back</a>
+
+                        {{ Form::close() }}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- #END# Exportable Table -->
+    </div>
+
+@endsection

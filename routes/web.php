@@ -21,7 +21,9 @@ Route::group(['prefix'=>'dashboard/admin','middleware'=>'auth','namespace'=>'adm
 
     Route::resource('tag', 'TagController')->middleware('isAdmin');
     Route::resource('category', 'CategoryController')->middleware('isAdmin');
-    Route::resource('post', 'PostController');
+    Route::resource('post', 'PostsController');
+    Route::get('/pending/post','PostsController@pending')->name('post.pending')->middleware('isAdmin');
+    Route::put('/post/{id}/approve','PostsController@approval')->name('post.approve')->middleware('isAdmin');
 
 });
 

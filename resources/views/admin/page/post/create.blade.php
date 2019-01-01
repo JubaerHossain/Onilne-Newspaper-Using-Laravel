@@ -23,8 +23,9 @@
                         <div class="body">
                             <div class="form-group form-float">
                                 <div class="form-line">
+                                    <lebal for="title">Post Title</lebal>
                                     <input type="text" id="title" class="form-control" name="title">
-                                    <label class="form-label">Post Title</label>
+                                    <label class="form-label"></label>
                                 </div>
                             </div>
 

@@ -68,6 +68,7 @@
                                                 <a href="{{ route('post.show',$post->id) }}" class="btn btn-info waves-effect">
                                                     <i class="material-icons">visibility</i>
                                                 </a>
+                                                @role('Admin')
                                                 <a href="{{ route('post.edit',$post->id) }}" class="btn btn-info waves-effect">
                                                     <i class="material-icons">edit</i>
                                                 </a>
@@ -78,6 +79,7 @@
                                                     @csrf
                                                     @method('DELETE')
                                                 </form>
+                                                @endrole
                                             </td>
                                         </tr>
                                     @endforeach

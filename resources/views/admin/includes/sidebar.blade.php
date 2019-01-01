@@ -52,6 +52,12 @@
                         <span>Category</span>
                     </a>
                 </li>
+                <li>
+                    <a href="{{route('post.pending')}}">
+                        <i class="material-icons">library_books</i>
+                        <span>Pending Post</span>
+                    </a>
+                </li>
                 @endrole
                 <li>
                     <a href="{{route('post.index')}}">

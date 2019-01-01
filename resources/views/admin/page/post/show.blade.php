@@ -1,6 +1,6 @@
-@extends('layouts.backend.app')
+@extends('admin.layouts.master')
 
-@section('title','Post')
+@section('title','Youth Club | Post Show')
 
 @push('css')
 
@@ -9,13 +9,14 @@
 @section('content')
     <div class="container-fluid">
         <!-- Vertical Layout | With Floating Label -->
-        <a href="{{ route('admin.post.index') }}" class="btn btn-danger waves-effect">BACK</a>
+        <a href="{{ route('post.index') }}" class="btn btn-danger waves-effect">BACK</a>
+        @role('Admin')
         @if($post->is_approved == false)
             <button type="button" class="btn btn-success waves-effect pull-right" onclick="approvePost({{ $post->id }})">
                 <i class="material-icons">done</i>
                 <span>Approve</span>
             </button>
-            <form method="post" action="{{ route('admin.post.approve',$post->id) }}" id="approval-form" style="display: none">
+            <form method="post" action="{{ route('post.approve',$post->id) }}" id="approval-form" style="display: none">
                 @csrf
                 @method('PUT')
             </form>
@@ -25,6 +26,7 @@
                 <span>Approved</span>
             </button>
         @endif
+        @endrole
         <br>
         <br>
             <div class="row clearfix">

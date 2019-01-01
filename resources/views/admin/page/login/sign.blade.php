@@ -22,37 +22,44 @@
     <!--// Stylesheets -->
     <!--fonts-->
     <link href="//fonts.googleapis.com/css?family=Poiret+One&amp;subset=cyrillic,latin-ext" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <!--//fonts-->
 </head>
 
 <body background="{{asset('assets/backend/login')}}/images/b.jpg">
-<h1>Admin Sign In</h1>
+<h1 class="white">Admin Sign In</h1>
 <div class="w3ls-login box box--big">
 
     <!-- form starts here -->
     <form method="POST" action="{{ route('admin.login') }}">
         @csrf
         <div class="agile-field-txt">
-            <label> {{ __('E-Mail Address') }}</label>
-            <input type="text" class="{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" required autofocus />
-            @if ($errors->has('email'))
-                <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('email') }}</strong>
+            <label for="email" class="col-sm-6 col-form-label text-md-right {{ $errors->has('email') ? ' is-invalid' : '' }}">{{ __('E-Mail Address') }}</label>
+
+            <div class="col-md-12">
+                <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" autofocus>
+
+                @if ($errors->has('email'))
+                    <span class="invalid-feedback ">
+                                        <p class="text-left" style="color: red;font-weight: inherit">{{ $errors->first('email') }}</p>
                                     </span>
-            @endif
+                @endif
+            </div>
         </div>
         <div class="agile-field-txt">
-            <label> {{ __('Password') }}</label>
-            <input id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required>
+            <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
 
-            @if ($errors->has('password'))
-                <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('password') }}</strong>
+            <div class="col-md-12">
+                <input id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" >
+
+                @if ($errors->has('password'))
+                    <span class="invalid-feedback">
+                                        <p style="color: red" class="text-left">{{ $errors->first('password') }}</p>
                                     </span>
-            @endif
-            <div class="agile_label">
-                <input id="check3" name="check3" type="checkbox" value="show password" onclick="myFunction()">
-                <label class="check" for="check3">Show password</label>
+                @endif
             </div>
             <div class="agile-right">
                 <a href="#">forgot password?</a>

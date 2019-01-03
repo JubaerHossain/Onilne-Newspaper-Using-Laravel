@@ -5,11 +5,14 @@ namespace App\Http\Controllers\admin\page;
 use App\model\admin\Category;
 use App\model\admin\Post;
 use App\model\admin\Tag;
+use App\Notifications\Admin\AuthorNotification;
+use App\User;
 use Brian2694\Toastr\Facades\Toastr;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
 use Spatie\Permission\Models\Role;
@@ -23,8 +26,11 @@ class PostsController extends Controller
      */
     public function index()
     {
+        $users = User::all();
+        foreach ($users as $user)
+
         $posts=Post::latest()->get();
-        return view('admin.page.post.index',compact('posts'));
+        return view('admin.page.post.index',compact('posts','user'));
     }
 
     /**
@@ -48,70 +54,76 @@ class PostsController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request,[
-            'title' => 'required',
-            'image' => 'required',
-            'categories' => 'required',
-            'tags' => 'required',
-            'body' => 'required',
-        ]);
-        $image = $request->file('image');
-        $slug = str_slug($request->title);
-        if (isset($image))
-        {
+        try {
+            $this->validate($request, [
+                'title' => 'required',
+                'image' => 'required',
+                'categories' => 'required',
+                'tags' => 'required',
+                'body' => 'required',
+            ]);
+            $image = $request->file('image');
+            $slug = str_slug($request->title);
+            if (isset($image)) {
 //            make unique name for image
-            $currentDate = Carbon::now()->toDateString();
-            $imagename = $slug.'-'.$currentDate.'-'.uniqid().'.'.$image->getClientOriginalExtension();
+                $currentDate = Carbon::now()->toDateString();
+                $imagename = $slug . '-' . $currentDate . '-' . uniqid() . '.' . $image->getClientOriginalExtension();
 //            check category dir is exists
-            if (!Storage::disk('public')->exists('post'))
-            {
-                Storage::disk('public')->makeDirectory('post');
-            }
+                if (!Storage::disk('public')->exists('post')) {
+                    Storage::disk('public')->makeDirectory('post');
+                }
 //            resize image for category and upload
-            $category = Image::make($image)->resize(656,307)->stream();
-            Storage::disk('public')->put('post/'.$imagename,$category);
+                $category = Image::make($image)->resize(656, 307)->stream();
+                Storage::disk('public')->put('post/' . $imagename, $category);
 
-            //            check category slider dir is exists
-            if (!Storage::disk('public')->exists('post/single'))
-            {
-                Storage::disk('public')->makeDirectory('post/single');
+                //            check category slider dir is exists
+                if (!Storage::disk('public')->exists('post/single')) {
+                    Storage::disk('public')->makeDirectory('post/single');
+                }
+                //            resize image for category slider and upload
+                $slider = Image::make($image)->resize(704, 330)->stream();
+                Storage::disk('public')->put('post/single/' . $imagename, $slider);
+
+            } else {
+                $imagename = "default.png";
             }
-            //            resize image for category slider and upload
-            $slider = Image::make($image)->resize(704,330)->stream();
-            Storage::disk('public')->put('post/single/'.$imagename,$slider);
+            $post = new Post();
+            $post->user_id = Auth::id();
+            $post->title = $request->title;
+            $post->slug = $slug;
+            $post->image = $imagename;
+            $post->body = $request->body;
+
+            if (isset($request->status)) {
+                $post->status = true;
+            } else {
+                $post->status = false;
+            }
+            $role = Auth::user()->id;
+            if ($role == 2) {
+                $post->is_approved = false;
+
+            } else {
+                $post->is_approved = true;
+
+            }
+            $post->save();
+            $post->categories()->attach($request->categories);
+            $post->tags()->attach($request->tags);
+
+            $users = Auth::user()->id;
+            if ($users == 2) {
+                Notification::send($users, new AuthorNotification($post));
+
+            }
+
+            Toastr::success('Post Successfully Saved :)', 'Success');
+            return redirect()->route('post.index');
+        }
+        catch (Exception $e){
+            return view('admin.includes.errors.401');
 
         }
-        else
-        {
-            $imagename = "default.png";
-        }
-        $post=new Post();
-        $post->user_id = Auth::id();
-        $post->title = $request->title;
-        $post->slug = $slug;
-        $post->image = $imagename;
-        $post->body = $request->body;
-
-        if(isset($request->status))
-        {
-            $post->status = true;
-        }else {
-            $post->status = e;
-        }
-        $role = Role::findByName('Author');
-        if (isset($role)){
-            $post->is_approved = false;
-
-        }else {
-            $post->is_approved = true;
-
-        }
-        $post->save();
-        $post->categories()->attach($request->categories);
-        $post->tags()->attach($request->tags);
-
-        Toastr::success('Post Successfully Saved :)','Success');
-        return redirect()->route('post.index');
 
 
 
@@ -125,7 +137,23 @@ class PostsController extends Controller
      */
     public function show(Post $post)
     {
-        return view('admin.page.post.show',compact('post'));
+        $users = User::all();
+         foreach ($users as $user)
+             if ($user->id=$post->user->id) {
+                 $role = $user->roles()->pluck('name')->implode(' ');
+                 if ($role !== 'Admin') {
+                     return view('admin.page.post.show', compact('post'));
+
+                 } elseif ($post->user_id != Auth::id()) {
+                     Toastr::error('You are not authorized to access this post', 'Error');
+                     return redirect()->back();
+                 }
+
+
+             }
+        return view('admin.page.post.show', compact('post'));
+
+
     }
 
     /**
@@ -240,6 +268,8 @@ class PostsController extends Controller
         $posts = Post::where('is_approved',false)->get();
         return view('admin.page.post.pending',compact('posts'));
     }
+
+
     public function approval($id)
     {
         $post = Post::find($id);
@@ -261,6 +291,30 @@ class PostsController extends Controller
             Toastr::success('Post Successfully Approved :)','Success');
         } else {
             Toastr::info('This Post is already approved','Info');
+        }
+        return redirect()->back();
+    }
+    public function publish($id)
+    {
+        $post = Post::find($id);
+
+        if ($post->status == false)
+        {
+            $post->status = true;
+            $post->save();
+/*
+            $post->user->notify(new AuthorPostApproved($post));
+
+            $subscribers = Subscriber::all();
+            foreach ($subscribers as $subscriber)
+            {
+                Notification::route('mail',$subscriber->email)
+                    ->notify(new NewPostNotify($post));
+            }*/
+
+            Toastr::success('Post Successfully Published :)','Success');
+        } else {
+            Toastr::info('This Post is already Published','Info');
         }
         return redirect()->back();
     }

@@ -37,4 +37,7 @@ class User extends Authenticatable
     public function posts(){
         return $this->hasMany('App\model\admin\Post');
     }
+    public function role(){
+        return $this->hasMany('Spatie\Permission\Models\Role');
+    }
 }

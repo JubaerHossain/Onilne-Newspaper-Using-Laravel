@@ -58,6 +58,12 @@
                         <span>Pending Post</span>
                     </a>
                 </li>
+                <li>
+                    <a href="{{route('subscribe.index')}}">
+                        <i class="material-icons">subscriptions</i>
+                        <span>Subscriber</span>
+                    </a>
+                </li>
                 @endrole
                 <li>
                     <a href="{{route('post.index')}}">

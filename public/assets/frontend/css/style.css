@@ -33,7 +33,7 @@ input[type="button"],input[type="submit"],li.parallelogram{
 h1,h2,h3,h4,h5,h6{
 	margin:0;
      font-family: 'Roboto Condensed', sans-serif;
-}	
+}
 p{
 	margin:0;
 	font-family: 'Open Sans', sans-serif;
@@ -82,7 +82,7 @@ label{
     margin: 0;
 }
 .social ul li a.facebook{
-    background: url(../images/social.png) no-repeat 0px 0px; 
+    background: url(../images/social.png) no-repeat 0px 0px;
     width: 32px;
     height: 32px;
     display: block;
@@ -149,7 +149,7 @@ label{
     padding-top: 0.5em;
 }
 .head-bottom {
-    background: #fa4b2a;
+    background: #000;
 }
 /*--navigation--*/
 ul.nav.navbar-nav li.active a {
@@ -306,10 +306,9 @@ a.blog.orn{
 }
 .tech-no {
     position: absolute;
-    top: -33px;
 }
 .technology {
-    min-height: 203em;
+    min-height: 100%;
 }
 .tc-ch {
     float: left;
@@ -323,7 +322,7 @@ a.blog.orn{
     display: block;
 }
 .soci ul li a.facebook-1{
-    background: url(../images/111.png) no-repeat 0px 0px; 
+    background: url(../images/111.png) no-repeat 0px 0px;
     width: 42px;
     height: 42px;
     display: block;
@@ -376,7 +375,7 @@ i.glyphicon.glyphicon-plus{
   -webkit-appearance: none;
 }
 .blo-top form input[type="submit"] {
-  background:#f53f1a; 
+  background:#f53f1a;
   padding: .3em 1em;
   color: #fff;
   font-size: 14px;
@@ -602,7 +601,7 @@ min-height: 300px;
     font-size: 1.7em;
     font-weight: 700;
     margin: 0.5em 0;
-} 
+}
 .business h2  a{
     color: #f53f1a;
 }
@@ -770,7 +769,7 @@ h4.media-heading {
   font-size: 1em;
   color: #e2e2e2;
   margin:0 0 0.7em ;
-  float:left;  
+  float:left;
 }
 .comment-bottom textarea{
  	resize:none;

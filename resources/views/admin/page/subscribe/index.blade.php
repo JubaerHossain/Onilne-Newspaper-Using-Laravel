@@ -1,6 +1,6 @@
 @extends('admin.layouts.master')
 
-@section('title','Youth Club | Post')
+@section('title','Youth Club | Subscriber')
 
 @push('css')
     <!-- JQuery DataTable Css -->
@@ -9,20 +9,16 @@
 
 @section('content')
     <div class="container-fluid">
-        <div class="block-header">
-            <a class="btn btn-primary waves-effect" href="{{ route('post.create') }}">
-                <i class="material-icons">add</i>
-                <span>Add New Post</span>
-            </a>
-        </div>
         <!-- Exportable Table -->
         <div class="row clearfix">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="card">
                     <div class="header">
                         <h2>
-                            ALL POSTS
-                            <span class="badge bg-blue">{{ $posts->count() }}</span>
+                            ALL CATEGORIES
+{{--
+                            <span class="badge bg-blue">{{ $categories->count() }}</span>
+--}}
                         </h2>
                     </div>
                     <div class="body">
@@ -31,62 +27,30 @@
                                 <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>Title</th>
-                                    <th>Author</th>
-                                    <th><i class="material-icons">visibility</i></th>
-                                    <th>Is Approved</th>
-                                    <th>Status</th>
+                                    <th>Name</th>
+
+
                                     <th>Date/Time Added</th>
-                                    {{--<th>Updated At</th>--}}
+
                                     <th>Action</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach($posts as $key=>$post)
+                                    @foreach($subscribes as $key=>$subscribe)
                                         <tr>
                                             <td>{{ $key + 1 }}</td>
-                                            <td>{{ str_limit($post->title,'10') }}</td>
-                                            <td>{{ $post->user->name }}</td>
-                                            {{--
-                                                @if($user->id=$post->user->id)
-                                            <td>{{  $user->roles()->pluck('name')->implode(' ') }}</td>
-                                                @endif
---}}
+                                            <td>{{ $subscribe->email }}</td>
 
-                                            <td>{{ $post->view_count }}</td>
-                                            <td>
-                                                @if($post->is_approved == true)
-                                                    <span class="badge bg-blue">Approved</span>
-                                                @else
-                                                    <span class="badge bg-pink">Pending</span>
-                                                @endif
-                                            </td>
-                                            <td>
-                                                @if($post->status == true)
-                                                    <span class="badge bg-blue">Published</span>
-                                                @else
-                                                    <span class="badge bg-pink">Pending</span>
-                                                @endif
-                                            </td>
-                                            <td>{{ $post->created_at->format('F d, Y ')  }}</td>
-                                            {{--<td>{{ $post->updated_at }}</td>--}}
+
+                                            <td>{{ $subscribe->created_at->format('F d, Y ') }}</td>
                                             <td class="text-center">
-                                                <a href="{{ route('post.show',$post->id) }}" class="btn btn-info waves-effect">
-
-                                                    <i class="material-icons">visibility</i>
-                                                </a>
-                                                @role('Admin')
-                                                <a href="{{ route('post.edit',$post->id) }}" class="btn btn-info waves-effect">
-                                                    <i class="material-icons">edit</i>
-                                                </a>
-                                                <button class="btn btn-danger waves-effect" type="button" onclick="deletePost({{ $post->id }})">
+                                                <button class="btn btn-danger waves-effect" type="button" onclick="deleteCategory({{ $subscribe->id }})">
                                                     <i class="material-icons">delete</i>
                                                 </button>
-                                                <form id="delete-form-{{ $post->id }}" action="{{ route('post.destroy',$post->id) }}" method="POST" style="display: none;">
+                                                <form id="delete-form-{{ $subscribe->id }}" action="{{ route('subscribe.destroy',$subscribe->id) }}" method="POST" style="display: none;">
                                                     @csrf
                                                     @method('DELETE')
                                                 </form>
-                                                @endrole
                                             </td>
                                         </tr>
                                     @endforeach
@@ -116,7 +80,7 @@
     <script src="{{ asset('assets/backend/js/pages/tables/jquery-datatable.js') }}"></script>
     <script src="https://unpkg.com/sweetalert2@7.19.1/dist/sweetalert2.all.js"></script>
     <script type="text/javascript">
-        function deletePost(id) {
+        function deleteCategory(id) {
             swal({
                 title: 'Are you sure?',
                 text: "You won't be able to revert this!",

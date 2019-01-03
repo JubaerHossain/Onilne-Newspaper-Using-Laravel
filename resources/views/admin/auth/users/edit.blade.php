@@ -39,6 +39,7 @@
                                 {{ Form::checkbox('roles[]',  $role->id, $user->roles ) }}
                                 {{ Form::label($role->name, ucfirst($role->name)) }}<br>
 
+
                             @endforeach
                         </div>
 

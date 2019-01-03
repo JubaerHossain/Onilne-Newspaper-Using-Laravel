@@ -21,36 +21,35 @@
         </div>
         <div class="col-md-4 footer-right">
             <h4>Quick Links</h4>
-            <li><a href="#">Eiusmod tempor</a></li>
-            <li><a href="#">Consectetur </a></li>
-            <li><a href="#">Adipisicing elit</a></li>
-            <li><a href="#">Eiusmod tempor</a></li>
-            <li><a href="#">Consectetur </a></li>
-            <li><a href="#">Adipisicing elit</a></li>
+            <ul class="social-nav footer-social social two">
+                <li>
+                    <a href="https://bit.ly/2N5pxbB" target="_blank">
+                        <i class="fab fa-facebook-f" aria-hidden="true"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" target="_blank">
+                        <i class="fab fa-twitter" aria-hidden="true"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" target="_blank">
+                        <i class="fab fa-instagram" aria-hidden="true"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" target="_blank">
+                        <i class="fab fa-pinterest" aria-hidden="true"></i>
+                    </a>
+                </li>
+            </ul>
+
         </div>
         <div class="clearfix"></div>
     </div>
 </div>
 <!-- footer -->
 <!-- footer-bottom -->
-<div class="foot-nav">
-    <div class="container">
-        <ul>
-            <li><a href="index.html">Home</a></li>
-            <li><a href="videos.html">Videos</a></li>
-            <li><a href="reviews.html">Reviews</a></li>
-            <li><a href="tech.html">Tech</a></li>
-            <li><a href="singlepage.html">Culture</a></li>
-            <li><a href="singlepage.html">Science</a></li>
-            <li><a href="design.html">Design</a></li>
-            <li><a href="business.html">Business</a></li>
-            <li><a href="world.html">World</a></li>
-            <li><a href="forum.html">Forum</a></li>
-            <li><a href="contact.html">Contact</a></li>
-            <div class="clearfix"></div>
-        </ul>
-    </div>
-</div>
 <!-- footer-bottom -->
 <div class="copyright">
     <div class="container">

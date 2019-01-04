@@ -1,6 +1,6 @@
 @extends('admin.layouts.master')
 
-@section('title','Post')
+@section('title','Youth Club | Pending Post')
 
 @push('css')
     <!-- JQuery DataTable Css -->

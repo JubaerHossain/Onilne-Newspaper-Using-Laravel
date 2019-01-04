@@ -44,5 +44,7 @@ Route::group(['prefix'=>'dashboard/admin','middleware'=>['auth','clearance'],'na
 // front section
 
 Route::get('/', 'frontend\HomeController@index')->name('home');
+Route::get('/category/{slug}', 'frontend\PostController@category_page')->name('category.page');
+Route::get('/post/{slug}','frontend\PostController@details')->name('post.details');
 Route::post('subscriber','frontend\SubscribeController@store')->name('subscribe.store');
 

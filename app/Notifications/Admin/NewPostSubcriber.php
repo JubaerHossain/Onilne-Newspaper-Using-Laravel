@@ -7,7 +7,7 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class AuthorNotification extends Notification implements ShouldQueue
+class NewPostSubcriber extends Notification implements ShouldQueue
 {
     use Queueable;
     public $post;
@@ -42,13 +42,11 @@ class AuthorNotification extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->greeting('Hello, Admin!')
-            ->subject('New Post Approval Needed')
-            ->line('New Post by '.$this->post->user->name . ' need to approve.')
-            ->line('To approve the post click view button.')
-            ->line('Post Title : '. $this->post->title)
-            ->action('View', url(route('post.show',$this->post->id)))
-            ->line('Thank you for using our application!');
+            ->subject('New Post Available')
+            ->greeting('Hello, Subscriber')
+            ->line('There is a new post. We hope you will like it.')
+            ->line('Post Title : '.$this->post->title)
+            ->action('View Post', url('/'));
     }
 
     /**

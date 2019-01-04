@@ -4,8 +4,11 @@ namespace App\Http\Controllers\admin\page;
 
 use App\model\admin\Category;
 use App\model\admin\Post;
+use App\model\frontend\Subscribe;
 use App\model\admin\Tag;
+use App\Notifications\Admin\ApprovePost;
 use App\Notifications\Admin\AuthorNotification;
+use App\Notifications\Admin\NewPostSubcriber;
 use App\User;
 use Brian2694\Toastr\Facades\Toastr;
 use Carbon\Carbon;
@@ -100,21 +103,29 @@ class PostsController extends Controller
                 $post->status = false;
             }
             $role = Auth::user()->id;
-            if ($role == 2) {
-                $post->is_approved = false;
+            if ($role == 1) {
+                $post->is_approved = true;
 
             } else {
-                $post->is_approved = true;
+                $post->is_approved = false;
 
             }
             $post->save();
             $post->categories()->attach($request->categories);
             $post->tags()->attach($request->tags);
 
-            $users = Auth::user()->id;
-            if ($users == 2) {
+            $data=Auth::user()->id;
+            if ($data == 1){
+                $subscribers = Subscribe::all();
+                foreach ($subscribers as $subscriber)
+                {
+                    Notification::route('mail',$subscriber->email)
+                        ->notify(new NewPostSubcriber($post));
+                }
+            }
+            if ($data != 1) {
+                $users = User::where('id', '1')->get();
                 Notification::send($users, new AuthorNotification($post));
-
             }
 
             Toastr::success('Post Successfully Saved :)', 'Success');
@@ -137,21 +148,22 @@ class PostsController extends Controller
      */
     public function show(Post $post)
     {
-        $users = User::all();
-         foreach ($users as $user)
-             if ($user->id=$post->user->id) {
-                 $role = $user->roles()->pluck('name')->implode(' ');
-                 if ($role !== 'Admin') {
-                     return view('admin.page.post.show', compact('post'));
+        $user = Auth::user();
+        if ($user->id) {
+            $role = $user->roles()->pluck('name')->implode(' ');
+            if ($role =='Admin') {
+                return view('admin.page.post.show', compact('post'));
+            }if ($role !='Admin') {
+                if ($user->id ==$post->user_id){
 
-                 } elseif ($post->user_id != Auth::id()) {
-                     Toastr::error('You are not authorized to access this post', 'Error');
-                     return redirect()->back();
-                 }
+                    return view('admin.page.post.show', compact('post'));
 
+                }
+                else
+                    Toastr::error('You are not authorized to access this post', 'Error');
+                     return redirect()->back();            }
 
-             }
-        return view('admin.page.post.show', compact('post'));
+        }
 
 
     }
@@ -278,15 +290,15 @@ class PostsController extends Controller
         {
             $post->is_approved = true;
             $post->save();
-/*
-            $post->user->notify(new AuthorPostApproved($post));
 
-            $subscribers = Subscriber::all();
+            $post->user->notify(new ApprovePost($post));
+
+            $subscribers = Subscribe::all();
             foreach ($subscribers as $subscriber)
             {
                 Notification::route('mail',$subscriber->email)
-                    ->notify(new NewPostNotify($post));
-            }*/
+                    ->notify(new NewPostSubcriber($post));
+            }
 
             Toastr::success('Post Successfully Approved :)','Success');
         } else {

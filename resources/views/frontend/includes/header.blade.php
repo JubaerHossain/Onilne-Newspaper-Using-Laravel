@@ -40,38 +40,10 @@
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li class="active"><a href="{{route('home')}}">Home</a></li>
-                    <li><a href="videos.html">Videos</a></li>
-                    <li><a href="reviews.html">Reviews</a></li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Tech <span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="tech.html">Action</a></li>
-                            <li><a href="tech.html">Action</a></li>
-                            <li><a href="tech.html">Action</a></li>
-                        </ul>
-                    </li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Culture <span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="singlepage.html">Action</a></li>
-                            <li><a href="singlepage.html">Action</a></li>
-                            <li><a href="singlepage.html">Action</a></li>
-                        </ul>
-                    </li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Science <span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="singlepage.html">Action</a></li>
-                            <li><a href="singlepage.html">Action</a></li>
-                            <li><a href="singlepage.html">Action</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="design.html">Design</a></li>
-                    <li><a href="business.html">Youth</a></li>
-                    <li><a href="world.html">World</a></li>
-                    <li><a href="forum.html">Forum</a></li>
-                    <li><a href="contact.html">Contact</a></li>
+                    <li class=""><a href="{{route('home')}}">Home</a></li>
+                    @foreach($categories as $category)
+                    <li><a href="{{route('category.page',$category->slug)}}">{{$category->name}}</a></li>
+                        @endforeach
                 </ul>
             </div><!--/.nav-collapse -->
         </div>

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\frontend;
 
+use App\model\admin\Category;
+use App\model\admin\Post;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -14,7 +16,9 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('frontend.home.index');
+        $categories=Category::all();
+        $posts=Post::latest()->take(5)->get();
+        return view('frontend.home.index',compact('categories','posts'));
     }
 
     /**
@@ -46,7 +50,7 @@ class HomeController extends Controller
      */
     public function show($id)
     {
-        //
+
     }
 
     /**
@@ -55,10 +59,6 @@ class HomeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.

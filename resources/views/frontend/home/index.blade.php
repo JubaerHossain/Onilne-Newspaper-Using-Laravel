@@ -7,40 +7,44 @@
 <div class="technology">
     <div class="container">
         <div class="col-md-9 technology-left">
-            <div class="tech-no">
+            <div class="tech-no mb-5">
                 <!-- technology-top -->
-                <div class="tc-ch">
+                @foreach($posts as $post)
+                    <div class="tc-ch">
 
-                    <div class="tch-img">
-                        <a href="singlepage.html"><img src="{{asset('assets/frontend')}}/images/1.jpg" class="img-responsive" alt=""/></a>
-                    </div>
-                    <a class="blog blue" href="singlepage.html">Technology</a>
-                    <h3><a href="singlepage.html">Lorem Ipsum is simply</a></h3>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud eiusmod tempor incididunt ut labore et dolore magna aliqua exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                    <p>Ut enim ad minim veniam, quis nostrud eiusmod tempor incididunt ut labore et dolore magna aliqua exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                        <div class="tch-img">
+                            <a href="singlepage.html"><img src="{{ Storage::disk('public')->url('post/'.$post->image) }}" class="img-responsive" alt="{{$post->title}}"/></a>
+                        </div>
+                        @foreach($post->categories as $category)
+                        <a class="blog blue" href="">{{ $category->name }}</a>
+                        @endforeach
+                        <h3><a href="singlepage.html">{{$post->title}}</a></h3>
+                        <p>{{ str_limit($post->body,'420') }}<a href="#"><strong class="red-text">read more</strong></a></p>
 
-                    <div class="blog-poast-info">
-                        <ul>
-                            <li><i class="glyphicon glyphicon-user"> </i><a class="admin" href="#"> Admin </a></li>
-                            <li><i class="glyphicon glyphicon-calendar"> </i>30-12-2015</li>
-                            <li><i class="glyphicon glyphicon-comment"> </i><a class="p-blog" href="#">3 Comments </a></li>
-                            <li><i class="glyphicon glyphicon-heart"> </i><a class="admin" href="#">5 favourites </a></li>
-                            <li><i class="glyphicon glyphicon-eye-open"> </i>1.128 views</li>
-                        </ul>
+
+                        <div class="blog-poast-info">
+                            <ul>
+                                <li><i class="glyphicon glyphicon-user"> </i><a class="admin" href="#"> Admin </a></li>
+                                <li><i class="glyphicon glyphicon-calendar"> </i>30-12-2015</li>
+                                <li><i class="glyphicon glyphicon-comment"> </i><a class="p-blog" href="#">3 Comments </a></li>
+                                <li><i class="glyphicon glyphicon-heart"> </i><a class="admin" href="#">5 favourites </a></li>
+                                <li><i class="glyphicon glyphicon-eye-open"> </i>1.128 views</li>
+                            </ul>
+                        </div>
                     </div>
+                    <div class="clearfix"></div>
+            @endforeach
+            <!-- technology-top --
+                <!-- technology-top -->
+                <div class="mb-5 center-block" style="margin-bottom: 200px">
+                    <button type="button" class="btn btn-success btn-lg center-block">Load more</button>
+
                 </div>
-                <div class="clearfix"></div>
-                <!-- technology-top --
-                <!-- technology-top -->
             </div>
+
         </div>
         <!-- technology-right -->
         <div class="col-md-3 technology-right mb-3">
-            <div class="blo-top">
-                <div class="tech-btm">
-                    <img src="{{asset('assets/frontend')}}/images/banner1.jpg" class="img-responsive" alt=""/>
-                </div>
-            </div>
             <div class="blo-top">
                 <div class="tech-btm">
                     <h4>Sign up to our newsletter</h4>
@@ -54,6 +58,19 @@
                         </div>
                     </form>
                     <div class="clearfix"> </div>
+                </div>
+            </div>
+            <div class="blo-top1">
+                <div class="tech-btm">
+                    <h4>Latest stories </h4>
+                    <hr>
+                    <div class="blog-grids" style="padding: 0">
+                        @foreach($posts as $post)
+
+                            <p class="border"><a class="border" href="">{{ str_limit($post->title,'28') }}</a> </p>
+                        @endforeach
+                        <div class="clearfix"> </div>
+                    </div>
                 </div>
             </div>
             <div class="blo-top1">
@@ -77,8 +94,11 @@
         <!-- technology-right -->
     </div>
 </div>
-<!-- technology -->
-    @endsection
+<div class="clearfix"></div>
+
+
+
+@endsection
 @push('js')
 
     @endpush

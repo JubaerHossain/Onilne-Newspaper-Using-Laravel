@@ -13,13 +13,13 @@
                     <div class="tc-ch">
 
                         <div class="tch-img">
-                            <a href="singlepage.html"><img src="{{ Storage::disk('public')->url('post/'.$post->image) }}" class="img-responsive" alt="{{$post->title}}"/></a>
+                            <a href="{{ route('post.details',$post->slug) }}"><img src="{{ Storage::disk('public')->url('post/'.$post->image) }}" class="img-responsive" alt="{{$post->title}}"/></a>
                         </div>
                         @foreach($post->categories as $category)
-                        <a class="blog blue" href="">{{ $category->name }}</a>
+                        <a class="blog blue" href="{{route('category.page',$category->slug)}}">{{ $category->name }}</a>
                         @endforeach
-                        <h3><a href="singlepage.html">{{$post->title}}</a></h3>
-                        <p>{{ str_limit($post->body,'420') }}<a href="#"><strong class="red-text">read more</strong></a></p>
+                        <h3><a href="{{ route('post.details',$post->slug) }}">{{$post->title}}</a></h3>
+                        <p>{{ str_limit($post->body,'420') }}<a href="{{ route('post.details',$post->slug) }}"><strong class="red-text">read more</strong></a></p>
 
 
                         <div class="blog-poast-info">

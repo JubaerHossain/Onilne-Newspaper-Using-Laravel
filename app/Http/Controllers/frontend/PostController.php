@@ -12,8 +12,8 @@ class PostController extends Controller
 {
     public function category_page($slug)
     {
-        $categories=Category::all();
         $category = Category::where('slug',$slug)->first();
+        $categories=Category::all();
 
         return view('frontend.page.allpage', compact('posts', 'category','categories'));
 
@@ -23,6 +23,7 @@ class PostController extends Controller
 
     public function details($slug)
     {
+        $categories=Category::all();
         $post = Post::where('slug',$slug)->approved()->published()->first();
 
         $blogKey = 'blog_' . $post->id;
@@ -32,7 +33,8 @@ class PostController extends Controller
             Session::put($blogKey,1);
         }
         $randomposts = Post::approved()->published()->take(3)->inRandomOrder()->get();
-        return view('post',compact('post','randomposts'));
+
+        return view('frontend.page.singlepost',compact('post','randomposts','categories'));
 
     }
 

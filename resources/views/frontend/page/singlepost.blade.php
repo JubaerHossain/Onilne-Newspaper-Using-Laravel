@@ -9,50 +9,34 @@
             <div class="col-md-9 technology-left">
                 <div class="tech-no mb-5">
                     <!-- technology-top -->
-                    @if($category->posts->count() > 0)
-                        @foreach($category->posts as $post)
-                        <div class="tc-ch">
 
-                            <div class="tch-img">
-                                <a href="{{ route('post.details',$post->slug) }}"><img src="{{ Storage::disk('public')->url('post/'.$post->image) }}" class="img-responsive" alt="{{$post->title}}"/></a>
+                            <div class="tc-ch">
+
+                                <div class="tch-img">
+                                    <a><img src="{{ Storage::disk('public')->url('post/single/'.$post->image) }}" class="img-responsive" alt="{{$post->title}}"/></a>
+                                </div>
+
+                                <h3><a>{{$post->title}}</a></h3>
+                                <p>{{ $post->body }}</p>
+
+
+                                <div class="blog-poast-info">
+                                    <ul>
+                                        <li><i class="glyphicon glyphicon-user"> </i><a class="admin" href="#"> Admin </a></li>
+                                        <li><i class="glyphicon glyphicon-calendar"> </i>30-12-2015</li>
+                                        <li><i class="glyphicon glyphicon-comment"> </i><a class="p-blog" href="#">3 Comments </a></li>
+                                        <li><i class="glyphicon glyphicon-heart"> </i><a class="admin" href="#">5 favourites </a></li>
+                                        <li><i class="glyphicon glyphicon-eye-open"> </i>1.128 views</li>
+                                    </ul>
+                                </div>
                             </div>
-                                <a class="blog blue" href="{{route('category.page',$category->slug)}}">{{$category->name }}</a>
-
-                            <h3><a href="{{ route('post.details',$post->slug) }}">{{$post->title}}</a></h3>
-                            <p>{{ str_limit($post->body,'420') }}<a href="{{ route('post.details',$post->slug) }}"><strong class="red-text">read more</strong></a></p>
-
-
-                            <div class="blog-poast-info">
-                                <ul>
-                                    <li><i class="glyphicon glyphicon-user"> </i><a class="admin" href="#"> Admin </a></li>
-                                    <li><i class="glyphicon glyphicon-calendar"> </i>30-12-2015</li>
-                                    <li><i class="glyphicon glyphicon-comment"> </i><a class="p-blog" href="#">3 Comments </a></li>
-                                    <li><i class="glyphicon glyphicon-heart"> </i><a class="admin" href="#">5 favourites </a></li>
-                                    <li><i class="glyphicon glyphicon-eye-open"> </i>1.128 views</li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="clearfix"></div>
-                @endforeach
+                            <div class="clearfix"></div>
                 </div>
             </div>
 
-                    @else
-                <!-- technology-top --
-                <!-- technology-top -->
-                    <div class="tc-ch" style="margin-left: 330px;margin-top: 110px">
-
-                        <div class="tch-img">
-                        </div>
-
-                        <h3 class="text-center"><a class="text-center">Post not found</a></h3>
 
 
-                    </div>
-                    <div class="clearfix"></div>
-                    @endif
-
-            <!-- technology-right -->
+        <!-- technology-right -->
             {{--<div class="col-md-3 technology-right mb-3">
                 <div class="blo-top">
                     <div class="tech-btm">
